@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:math';
 
 import 'package:cr_calendar/cr_calendar.dart';
 import 'package:cr_calendar_example/res/colors.dart';
@@ -56,7 +57,39 @@ class _CalendarPageState extends State<CalendarPage> {
           IconButton(
             tooltip: 'Go to current date',
             icon: const Icon(Icons.calendar_today),
-            onPressed: _showCurrentMonth,
+            onPressed: () {
+              final now = _currentDate;
+              _calendarController.addEvents([
+                MyCalendarEventModel(
+                  Random().nextInt(100),
+                  name: '3 event',
+                  begin: DateTime(now.year, now.month, (now.day - 3).clamp(1, 28)),
+                  end: DateTime(now.year, now.month + 1, (now.day + 4).clamp(1, 28)),
+                  eventColor: eventColors[2],
+                ),
+                MyCalendarEventModel(
+                  Random().nextInt(100),
+                  name: '4 event',
+                  begin: DateTime(now.year, now.month - 1, (now.day).clamp(1, 28)),
+                  end: DateTime(now.year, now.month + 1, (now.day + 5).clamp(1, 28)),
+                  eventColor: eventColors[3],
+                ),
+                MyCalendarEventModel(
+                  Random().nextInt(100),
+                  name: '5 event',
+                  begin: DateTime(now.year, now.month + 1, (now.day + 1).clamp(1, 28)),
+                  end: DateTime(now.year, now.month + 2, (now.day + 7).clamp(1, 28)),
+                  eventColor: eventColors[4],
+                ),
+                MyCalendarEventModel(
+                  Random().nextInt(100),
+                  name: '6 event',
+                  begin: DateTime(now.year, now.month + 3, (now.day + 1).clamp(1, 28)),
+                  end: DateTime(now.year, now.month + 3, (now.day + 6).clamp(1, 28)),
+                  eventColor: eventColors[5],
+                ),
+              ]);
+            },//_showCurrentMonth,
           ),
         ],
       ),
@@ -96,14 +129,14 @@ class _CalendarPageState extends State<CalendarPage> {
           /// Calendar view.
           Expanded(
             child: CrCalendar(
+              backgroundColor: Colors.white,
               firstDayOfWeek: WeekDay.monday,
               eventsTopPadding: 32,
               initialDate: _currentDate,
               maxEventLines: 3,
               controller: _calendarController,
               forceSixWeek: true,
-              dayItemBuilder: (builderArgument) =>
-                  DayItemWidget(properties: builderArgument),
+              dayItemBuilder: (builderArgument) => DayItemWidget(properties: builderArgument),
               weekDaysBuilder: (day) => WeekDaysWidget(day: day),
               eventBuilder: (drawer) => EventWidget(drawer: drawer),
               onDayClicked: _showDayEventsInModalSheet,
@@ -153,36 +186,48 @@ class _CalendarPageState extends State<CalendarPage> {
     _calendarController = CrCalendarController(
       onSwipe: _onCalendarPageChanged,
       events: [
-        CalendarEventModel(
+        MyCalendarEventModel(
+          Random().nextInt(100),
           name: '1 event',
-          begin: DateTime(now.year, now.month, (now.day).clamp(1, 28)),
-          end: DateTime(now.year, now.month, (now.day).clamp(1, 28)),
+          begin: DateTime(now.year, now.month, now.day.clamp(1, 28)),
+          end: DateTime(now.year, now.month, now.day.clamp(1, 28)),
           eventColor: eventColors[0],
         ),
-        CalendarEventModel(
+        MyCalendarEventModel(
+          Random().nextInt(100),
           name: '2 event',
           begin: DateTime(now.year, now.month - 1, (now.day - 2).clamp(1, 28)),
           end: DateTime(now.year, now.month, (now.day + 2).clamp(1, 28)),
           eventColor: eventColors[1],
         ),
-        CalendarEventModel(
-          name: '3 event',
-          begin: DateTime(now.year, now.month, (now.day - 3).clamp(1, 28)),
-          end: DateTime(now.year, now.month + 1, (now.day + 4).clamp(1, 28)),
-          eventColor: eventColors[2],
-        ),
-        CalendarEventModel(
-          name: '4 event',
-          begin: DateTime(now.year, now.month - 1, (now.day).clamp(1, 28)),
-          end: DateTime(now.year, now.month + 1, (now.day + 5).clamp(1, 28)),
-          eventColor: eventColors[3],
-        ),
-        CalendarEventModel(
-          name: '5 event',
-          begin: DateTime(now.year, now.month + 1, (now.day + 1).clamp(1, 28)),
-          end: DateTime(now.year, now.month + 2, (now.day + 7).clamp(1, 28)),
-          eventColor: eventColors[4],
-        ),
+        // MyCalendarEventModel(
+        //   Random().nextInt(100),
+        //   name: '3 event',
+        //   begin: DateTime(now.year, now.month, (now.day - 3).clamp(1, 28)),
+        //   end: DateTime(now.year, now.month + 1, (now.day + 4).clamp(1, 28)),
+        //   eventColor: eventColors[2],
+        // ),
+        // MyCalendarEventModel(
+        //   Random().nextInt(100),
+        //   name: '4 event',
+        //   begin: DateTime(now.year, now.month - 1, (now.day).clamp(1, 28)),
+        //   end: DateTime(now.year, now.month + 1, (now.day + 5).clamp(1, 28)),
+        //   eventColor: eventColors[3],
+        // ),
+        // MyCalendarEventModel(
+        //   Random().nextInt(100),
+        //   name: '5 event',
+        //   begin: DateTime(now.year, now.month + 1, (now.day + 1).clamp(1, 28)),
+        //   end: DateTime(now.year, now.month + 2, (now.day + 7).clamp(1, 28)),
+        //   eventColor: eventColors[4],
+        // ),
+        // MyCalendarEventModel(
+        //   Random().nextInt(100),
+        //   name: '6 event',
+        //   begin: DateTime(now.year, now.month + 3, (now.day + 1).clamp(1, 28)),
+        //   end: DateTime(now.year, now.month + 3, (now.day + 6).clamp(1, 28)),
+        //   eventColor: eventColors[5],
+        // ),
       ],
     );
   }
@@ -195,9 +240,17 @@ class _CalendarPageState extends State<CalendarPage> {
         isScrollControlled: true,
         context: context,
         builder: (context) => DayEventsBottomSheet(
-              events: events,
+              events: events.map((item) {
+                return item as MyCalendarEventModel;
+              }).toList(),
               day: day,
               screenHeight: MediaQuery.of(context).size.height,
             ));
   }
+}
+
+class MyCalendarEventModel extends CalendarEventModel{
+  MyCalendarEventModel(this.id, {required super.name, required super.begin, required super.end, required super.eventColor});
+
+  final int id;
 }

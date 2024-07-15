@@ -19,14 +19,10 @@ class EventWidget extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(4)),
         color: drawer.backgroundColor,
       ),
-      child: FittedBox(
-        fit: BoxFit.fitHeight,
-        alignment: Alignment.centerLeft,
-        child: Text(
-          drawer.name,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.white),
-        ),
+      child: Text(
+        drawer.name,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

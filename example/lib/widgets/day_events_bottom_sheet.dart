@@ -3,6 +3,8 @@ import 'package:cr_calendar_example/utills/constants.dart';
 import 'package:cr_calendar_example/utills/extensions.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/calendar_page.dart';
+
 /// Draggable bottom sheet with events for the day.
 class DayEventsBottomSheet extends StatelessWidget {
   const DayEventsBottomSheet({
@@ -12,7 +14,7 @@ class DayEventsBottomSheet extends StatelessWidget {
     super.key,
   });
 
-  final List<CalendarEventModel> events;
+  final List<MyCalendarEventModel> events;
   final DateTime day;
   final double screenHeight;
 
@@ -65,7 +67,7 @@ class DayEventsBottomSheet extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                event.name,
+                                                'ID ${event.id} ${event.name}',
                                                 style: const TextStyle(
                                                     fontSize: 16),
                                               ),
